@@ -15,6 +15,9 @@ func NewsUserHandler(userService user.Service) *userHandler {
 	return &userHandler{userService}
 }
 
+//	tangkap input dari user
+//	mapping input dari user ke struct RegisterUserInput
+//	struct diatas kita passing sebagai parameter service
 func (h *userHandler) RegisterUser(c *gin.Context) {
 	var input user.RegisterUserInput
 
@@ -46,6 +49,37 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 
 }
 
-//	tangkap input dari user
-//	map iinput dari user ke struct RegisterUserInput
-//	struct diatas kita passing sebagai parameter service
+//User memasukan input (email & password)
+//input ditangkap handler
+//mapping dari input user ke input struct
+//input struct passing ke service
+//di service mencari dg bantuan repository user dengan email x
+//mencocokan password
+func (h *userHandler) Login(c *gin.Context) {
+	var input user.LoginInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Your email or password is incorrect", http.StatusUnprocessableEntity, "Error", errorMessage)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	loggedinUser, err := h.userService.Login(input)
+
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse("Your email or password is incorrect", http.StatusUnprocessableEntity, "Error", errorMessage)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := user.FormatUser(loggedinUser, "tokentokentokentokentoken")
+
+	response := helper.APIResponse("Login successfully", http.StatusOK, "success", formatter)
+
+	c.JSON(http.StatusOK, response)
+}
