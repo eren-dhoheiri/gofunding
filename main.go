@@ -10,6 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
+//input dari user
+//handler : mapping input dari user => struct input
+//service : melakukan mapping dari struct input ke strcut User
+//repository
+//db
 func main() {
 	dsn := "root:root@tcp(127.0.0.1:3306)/gofunding?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -36,10 +41,3 @@ func main() {
 
 	router.Run()
 }
-
-//logic
-//input dari user
-//handler : mapping input dari user => struct input
-//service : melakukan mapping dari struct input ke strcut User
-//repository
-//db
