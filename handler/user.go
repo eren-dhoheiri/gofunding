@@ -161,7 +161,7 @@ func (h *userHandler) UploadAvatar(c *gin.Context)  {
 		return
 	}
 
-	// masih hardcode
+	
 	userID := 1
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
