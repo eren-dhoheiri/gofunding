@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend_funding/auth"
 	"backend_funding/handler"
 	"backend_funding/user"
 	"log"
@@ -25,10 +26,9 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+	authService := auth.NewService()
 
-	userService.SaveAvatar(1, "images/1-profile.png")
-
-	userHandler := handler.NewsUserHandler(userService)
+	userHandler := handler.NewsUserHandler(userService, authService)
 
 	router := gin.Default()
 
