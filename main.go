@@ -6,6 +6,7 @@ import (
 	"backend_funding/handler"
 	"backend_funding/helper"
 	"backend_funding/user"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -33,6 +34,7 @@ func main() {
 	campaignRepository := campaign.NewRepository(db)
 
 	userService := user.NewService(userRepository)
+	campaignService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
 
 	userHandler := handler.NewsUserHandler(userService, authService)
