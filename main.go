@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend_funding/auth"
+	"backend_funding/campaign"
 	"backend_funding/handler"
 	"backend_funding/helper"
 	"backend_funding/user"
@@ -29,6 +30,8 @@ func main() {
 	}
 
 	userRepository := user.NewRepository(db)
+	campaignRepository := campaign.NewRepository(db)
+
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 
