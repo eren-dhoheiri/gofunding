@@ -6,7 +6,6 @@ import (
 	"backend_funding/handler"
 	"backend_funding/helper"
 	"backend_funding/user"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -38,6 +37,7 @@ func main() {
 	authService := auth.NewService()
 
 	userHandler := handler.NewsUserHandler(userService, authService)
+	campaignHandler := handler.NewsCampaignHandler(campaignService)
 
 	router := gin.Default()
 
@@ -47,6 +47,8 @@ func main() {
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
+
+	api.GET("/campaigns", campaignHandler.GetCampaigns)
 
 	router.Run()
 }
