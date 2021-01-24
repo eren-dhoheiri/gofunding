@@ -19,8 +19,8 @@ type campaignHandler struct {
 	campaignService campaign.Service
 }
 
-func NewsCampaignHandler(service campaign.Service) *campaignHandler {
-	return &campaignHandler{service}
+func NewsCampaignHandler(campaignService campaign.Service) *campaignHandler {
+	return &campaignHandler{campaignService}
 }
 
 func (h *campaignHandler) GetCampaigns(c *gin.Context) {
@@ -34,6 +34,6 @@ func (h *campaignHandler) GetCampaigns(c *gin.Context) {
 		return
 	}
 
-	response := helper.APIResponse("List of campaign", http.StatusOK, "Success", campaigns)
+	response := helper.APIResponse("List of campaign", http.StatusOK, "Success", campaign.FormatCampaigns(campaigns))
 	c.JSON(http.StatusOK, response)
 }
