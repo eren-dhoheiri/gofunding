@@ -11,7 +11,7 @@ type Service interface {
 	Login(input LoginInput) (User, error)
 	IsEmailAvailable(input CheckEmailInput) (bool, error)
 	SaveAvatar(ID int, fileLocation string) (User, error)
-	GetUsersByID (ID int) (User, error)
+	GetUsersByID(ID int) (User, error)
 }
 
 type service struct {
