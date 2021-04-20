@@ -19,9 +19,6 @@ func NewsUserHandler(userService user.Service, authService auth.Service) *userHa
 	return &userHandler{userService, authService}
 }
 
-//	tangkap input dari user
-//	mapping input dari user ke struct RegisterUserInput
-//	struct diatas kita passing sebagai parameter service
 func (h *userHandler) RegisterUser(c *gin.Context) {
 	var input user.RegisterUserInput
 
@@ -58,12 +55,6 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 
 }
 
-//User memasukan input (email & password)
-//input ditangkap handler
-//mapping dari input user ke input struct
-//input struct passing ke service
-//di service mencari dg bantuan repository user dengan email x
-//mencocokan password
 func (h *userHandler) Login(c *gin.Context) {
 	var input user.LoginInput
 
@@ -100,12 +91,6 @@ func (h *userHandler) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-
-// ada input email dari user
-// input email di mapping ke struct input
-// struct input dipassing ke service
-// service akan memanggil repository -email sudah ada atau blm
-// repository qeuery ke db
 func (h *userHandler) CheckEmailAvailability (c *gin.Context)  {
 	var input user.CheckEmailInput 
 
@@ -143,13 +128,6 @@ func (h *userHandler) CheckEmailAvailability (c *gin.Context)  {
 	
 }
 
-
-// input dari gambar user
-// simpan gamabr di folder images
-//  diservice panggil repository
-// JWT (sementara hardcode, seakan2 user yg login ID = X)
-// repo ambil data user yg ID = X
-// repo update data user simpan lokasi file
 func (h *userHandler) UploadAvatar(c *gin.Context)  {
 
 	file, err := c.FormFile("avatar")
@@ -187,4 +165,16 @@ func (h *userHandler) UploadAvatar(c *gin.Context)  {
 	response := helper.APIResponse("Avatar successfully uploaded", http.StatusOK, "success", data)
 
 	c.JSON(http.StatusOK, response)
+}
+
+func (h *userHandler) FetchUser(c *gin.Context) {
+
+	currentUser := c.MustGet("currentUser").(user.User)
+
+	formatter := user.FormatUser(currentUser, "")
+
+	response := helper.APIResponse("Successfuly fetch user data", http.StatusOK, "success", formatter)
+
+	c.JSON(http.StatusOK, response)
+
 }
