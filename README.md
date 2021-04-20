@@ -137,7 +137,7 @@ jwt dimanfaatkan untuk authentikasi API berdasarkan token user. [cek details jwt
 go get github.com/dgrijalva/jwt-go
 ```
 
-1. create auth service /bawastartup/auth/service.go
+1. create auth service auth/service.go
 
    ```go
 
