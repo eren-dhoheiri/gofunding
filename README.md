@@ -128,7 +128,7 @@ kita bisa menggunaka erdplus.com
    )
    ```
 
-## JWT Auth / Json Web Tokwn Auth
+## JWT Auth
 
 jwt dimanfaatkan untuk authentikasi API berdasarkan token user. [cek details jwt](jwt.io)
 
@@ -161,7 +161,7 @@ go get github.com/dgrijalva/jwt-go
       return &jwtService{}
    }
 
-   var SECRET_KEY = []byte("BWASTARTUP_s3cr3t_k3y")
+   var SECRET_KEY = []byte("asdhbvsad364t834iqwb")
 
    func (s *jwtService) GenerateToken(userID int) (string, error) {
       claim := jwt.MapClaims{}
