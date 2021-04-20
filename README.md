@@ -234,6 +234,7 @@ params:**
 
 **response:**
 
+```json
 meta : {
 
 message: 'You're now logged in'
@@ -255,6 +256,7 @@ email: "com.agungsetiawan@gmail.com",
 token: "peterpanyangterdalam"
 
 }
+```
 
 **GET: api/v1/campaigns
 params:**
@@ -275,8 +277,8 @@ meta : {
 data : [
 {
 		id: 1,
-		name: "BWA Startup",
-		short_description: "Laris manis tanjung kimpul, mari belajar bareng",
+		name: "GO Startup",
+		short_description: "Laris manis tanjung kimpul",
 		image_url: "domain/path/image.jpg",
 		goal_amount: 1000000000,
 		current_amount: 500000000,
@@ -300,8 +302,8 @@ meta : {
 },
 data : {
 	id: 1,
-	name: "BWA Startup",
-	short_description: "Laris manis tanjung kimpul, mari belajar bareng",
+	name: "GO Startup",
+	short_description: "Mari belajar bareng",
 	image_url: "path/image.jpg",
 	goal_amount: 1000000000,
 	current_amount: 500000000,
@@ -325,7 +327,7 @@ data : {
 }
 ```
 
-POST: api/v1/campaigns
+**POST: api/v1/campaigns**
 
 ```json
 {
@@ -347,11 +349,11 @@ POST: api/v1/campaigns
 }
 ```
 
-PUT : api/v1/campaigns/1
+**PUT : api/v1/campaigns/1**
 
 sama dengan atas
 
-POST: api/v1/campaign-images
+**POST: api/v1/campaign-images**
 
 - file
 - campaign_id
@@ -359,7 +361,7 @@ POST: api/v1/campaign-images
 
 sama dengan upload avatar
 
-GET : api/v1/campaigns/:id/transactions (campaign punya transaksi backer siapa aja)
+**GET : api/v1/campaigns/:id/transactions** (campaign punya transaksi backer siapa aja)
 
 ```json
 meta : {
@@ -370,15 +372,15 @@ meta : {
 data : [
 	{
 		id: 1,
-		name: "Agung Setiawan",
+		name: "Eren Dhoheiri",
 		amount: 1000000000,
 		created_at: datetime
 	}
 ]
 ```
 
-GET : api/v1/transactions/ (user pernah transaksi apa aja)
-params : header auth (current user)
+**GET : api/v1/transactions/** (user pernah transaksi apa aja)
+**params : header auth** (current user)
 
 ```json
 meta : {
@@ -401,10 +403,10 @@ data : [
 ]
 ```
 
-POST: api/v1/transactions
+**POST: api/v1/transactions**
 params : header auth (current user)
 
-***request***
+*request*
 
 ```json
 {
@@ -414,7 +416,7 @@ params : header auth (current user)
 ```
 
 
-***response***
+*response*
 
 ```json
 {
