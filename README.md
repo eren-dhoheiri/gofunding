@@ -13,7 +13,7 @@ kita bisa menggunaka erdplus.com
 
 1. Diagram
 
-<img src="./ERD-BWASTARTUP.png" style="align:denter;">
+<img src="./ERD.png" style="align:denter;">
 
 2. Details
    - Users
@@ -127,7 +127,6 @@ kita bisa menggunaka erdplus.com
    updated_at DATETIME
    )
    ```
-
 
 ## JWT Auth / Json Web Tokwn Auth
 
