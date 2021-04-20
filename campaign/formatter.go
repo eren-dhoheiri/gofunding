@@ -72,7 +72,7 @@ type CampaignImageFormatter struct {
 	IsPrimary	bool	`json:"is_primary"`
 }
 
-func FormateCampaignDetail(campaign Campaign) CampaignDetailFormatter {
+func FormatCampaignDetail(campaign Campaign) CampaignDetailFormatter {
 
 	campaignDetailFormatter := CampaignDetailFormatter{}
 	campaignDetailFormatter.ID = campaign.ID
