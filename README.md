@@ -176,17 +176,19 @@ go get github.com/dgrijalva/jwt-go
 **response :**
 
 ```json
-meta : {
-	message: 'Your account has been created',
-	code: 200,
-	status: 'success'
-},
-data : {
-	id: 1,
-	name: "Agung Setiawan",
-	occupation: "content creator",
-	email: "com.agungsetiawan@gmail.com",
-	token: "peterpanyangterdalam"
+{
+  "meta": {
+    "message": "Your account has been created",
+    "code": 200,
+    "status": "success"
+  },
+  "data": {
+    "id": 1,
+    "name": "Eren Dhoheiri",
+    "occupation": "content creator",
+    "email": "com.agungsetiawan@gmail.com",
+    "token": "peterpanyangterdalam"
+  }
 }
 ```
 
@@ -198,13 +200,15 @@ params :**
 **response:**
 
 ```json
-meta : {
-	message: 'Email address has been registered',
-	code: 200,
-	status: 'success'
-},
-data : {
-	is_available: false
+{
+  "meta": {
+    "message": "Email address has been registered",
+    "code": 200,
+    "status": "success"
+  },
+  "data": {
+    "is_available": false
+  }
 }
 ```
 
@@ -216,13 +220,15 @@ params:**
 **response:**
 
 ```json
-meta : {
-	message: 'Avatar successfully uploaded,
-	code: 200,
-	status: 'success'
-},
-data : {
-	is_uploaded: true
+{
+  "meta": {
+    "message": "Avatar successfully uploaded",
+    "code": 200,
+    "status": "success"
+  },
+  "data": {
+    "is_uploaded": true
+  }
 }
 ```
 
@@ -235,26 +241,22 @@ params:**
 **response:**
 
 ```json
-meta : {
+{
+  "meta": {
+    "message": "You're now logged in",
+    "code": 200,
+    "status": "success"
+  },
 
-message: 'You're now logged in'
+  "data": {
+    "id": 1,
+    "name": "Eren Dhoheiri",
+    "occupation": "content creator",
 
-code: 200
+    "email": "com.asdsadsadas@gmail.com",
 
-status: 'success'
-
-},
-
-data : {
-
-id: 1,
-name: "Agung Setiawan",
-occupation: "content creator",
-
-email: "com.agungsetiawan@gmail.com",
-
-token: "peterpanyangterdalam"
-
+    "token": "peterpanyangterdalam"
+  }
 }
 ```
 
@@ -269,23 +271,25 @@ optional
 **response:**
 
 ```json
-meta : {
-	message: 'List of campaigns',
-	code: 200,
-	status: 'success'
-},
-data : [
 {
-		id: 1,
-		name: "GO Startup",
-		short_description: "Laris manis tanjung kimpul",
-		image_url: "domain/path/image.jpg",
-		goal_amount: 1000000000,
-		current_amount: 500000000,
-		slug: "slug-here",
-		user_id: 10
-	}
-]
+  "meta": {
+    "message": "List of campaigns",
+    "code": 200,
+    "status": "success"
+  },
+  "data": [
+    {
+      "id": 1,
+      "name": "GO Startup",
+      "short_description": "Laris manis tanjung kimpul",
+      "image_url": "domain/path/image.jpg",
+      "goal_amount": 1000000000,
+      "current_amount": 500000000,
+      "slug": "slug-here",
+      "user_id": 10
+    }
+  ]
+}
 ```
 
 **GET: api/v1/campaigns/1
@@ -295,35 +299,34 @@ none
 **response:**
 
 ```json
-meta : {
-	message: 'single campaigns',
-	code: 200,
-	status: 'success'
-},
-data : {
-	id: 1,
-	name: "GO Startup",
-	short_description: "Mari belajar bareng",
-	image_url: "path/image.jpg",
-	goal_amount: 1000000000,
-	current_amount: 500000000,
-	user_id: 10,
-  slug: "slug",
-	description: "Lorem epsum dolor sit amet yang panjang text-nya",
-	user : {
-		name: "Julia Ester",
-		image_url: "path/image.jpg"
-	},
-	perks: [
-		"Nintendo Switch",
-		"Play Station 4"
-	],
-	images: [
-		{
-			image_url: "path/image.jpg",
-			is_primary: true
-		}
-	]
+{
+  "meta": {
+    "message": "single campaigns",
+    "code": 200,
+    "status": "success"
+  },
+  "data": {
+    "id": 1,
+    "name": "GO Startup",
+    "short_description": "Mari belajar bareng",
+    "image_url": "path/image.jpg",
+    "goal_amount": 1000000000,
+    "current_amount": 500000000,
+    "user_id": 10,
+    "slug": "slug",
+    "description": "Lorem epsum dolor sit amet yang panjang text-nya",
+    "user": {
+      "name": "Julia Ester",
+      "image_url": "path/image.jpg"
+    },
+    "perks": ["Nintendo Switch", "Play Station 4"],
+    "images": [
+      {
+        "image_url": "path/image.jpg",
+        "is_primary": true
+      }
+    ]
+  }
 }
 ```
 
@@ -364,77 +367,79 @@ sama dengan upload avatar
 **GET : api/v1/campaigns/:id/transactions** (campaign punya transaksi backer siapa aja)
 
 ```json
-meta : {
-	message: 'List of transactions'
-	code: 200,
-	status: 'success'
-},
-data : [
-	{
-		id: 1,
-		name: "Eren Dhoheiri",
-		amount: 1000000000,
-		created_at: datetime
-	}
-]
+{
+  "meta": {
+    "message": "List of transactions",
+    "code": 200,
+    "status": "success"
+  },
+  "data": [
+    {
+      "id": 1,
+      "name": "Eren Dhoheiri",
+      "amount": 1000000000,
+      "created_at": datetime
+    }
+  ]
+}
 ```
 
 **GET : api/v1/transactions/** (user pernah transaksi apa aja)
 **params : header auth** (current user)
 
 ```json
-meta : {
-	message: 'List of backed campaigns',
-	code: 200,
-	status: 'success'
-
-},
-data : [
-	{
-		id: 1,
-		amount: 1000000000,
-		status: "paid",
-		created_at: datetime,
-		campaign: {
-			name: "Hola",
-			image_url : "path/to/file.png"
-		}
-	}
-]
+{
+  "meta": {
+    "message": "List of backed campaigns",
+    "code": 200,
+    "status": "success"
+  },
+  "data": [
+    {
+      "id": 1,
+      "amount": 1000000000,
+      "status": "paid",
+      "created_at": datetime,
+      "campaign": {
+        "name": "Hola",
+        "image_url": "path/to/file.png"
+      }
+    }
+  ]
+}
 ```
 
 **POST: api/v1/transactions**
 params : header auth (current user)
 
-*request*
+_request_
 
 ```json
 {
-    "campaign_id" : 2,
-    "amount" : 200000
+  "campaign_id": 2,
+  "amount": 200000
 }
 ```
 
-
-*response*
+_response_
 
 ```json
 {
-    "meta": {
-        "message": "Success to create transaction",
-        "code": 200,
-        "status": "success"
-    },
-    "data": {
-        "id": 5,
-        "campaign_id": 2,
-        "user_id": 2,
-        "amount": 200000,
-        "status": "pending",
-        "code": "",
-        "token": "4*****-0655-**********",
-        "payment_url": "https://app.sandbox.midtrans.com/snap/v2/vtweb/**************************",
-        "created_at": "0001-01-01T00:00:00Z"
-    }
+  "meta": {
+    "message": "Success to create transaction",
+    "code": 200,
+    "status": "success"
+  },
+  "data": {
+    "id": 5,
+    "campaign_id": 2,
+    "user_id": 2,
+    "amount": 200000,
+    "status": "pending",
+    "code": "",
+    "token": "4*****-0655-**********",
+    "payment_url": "https://app.sandbox.midtrans.com/snap/v2/vtweb/**************************",
+    "created_at": "0001-01-01T00:00:00Z"
+  }
 }
 ```
