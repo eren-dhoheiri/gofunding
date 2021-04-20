@@ -5,24 +5,38 @@ import (
 	"backend_funding/campaign"
 	"backend_funding/handler"
 	"backend_funding/helper"
+	"backend_funding/payment"
+	"backend_funding/transaction"
 	"backend_funding/user"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-//input dari user
-//handler : mapping input dari user => struct input
-//service : melakukan mapping dari struct input ke strcut User
-//repository
-//db
+func init() {
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+}
+
+
 func main() {
-	dsn := "root@tcp(127.0.0.1:3306)/gofunding?charset=utf8mb4&parseTime=True&loc=Local"
+	MYSQL_URL := os.Getenv("MYSQL_URL")
+	MYSQL_USER := os.Getenv("MYSQL_USER")
+	MYSQL_PASSWORD := os.Getenv("MYSQL_PASSWORD")
+	MYSQL_DB := os.Getenv("MYSQL_DB")
+
+	dsn := MYSQL_USER + ":" + MYSQL_PASSWORD + "@tcp(" + MYSQL_URL + ":3306)/" + MYSQL_DB + "?parseTime=true"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -31,13 +45,17 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	campaignRepository := campaign.NewRepository(db)
+	transactionRepository := transaction.NewRepository(db)
 
+	paymentService := payment.NewService()  
+	authService := auth.NewService()
 	userService := user.NewService(userRepository)
 	campaignService := campaign.NewService(campaignRepository)
-	authService := auth.NewService()
+	transactionService := transaction.NewService(transactionRepository, campaignRepository, paymentService)
 
 	userHandler := handler.NewsUserHandler(userService, authService)
 	campaignHandler := handler.NewsCampaignHandler(campaignService)
+	transactionHandler := handler.NewTransactionHandler(transactionService)
 
 	router := gin.Default()
 	router.Static("/images", "./images")
@@ -53,6 +71,12 @@ func main() {
 	api.POST("/campaigns", authMiddleware(authService, userService), campaignHandler.CreateCampaign)
 	api.PUT("/campaigns/:id", authMiddleware(authService, userService), campaignHandler.UpdateCampaign)
 	api.POST("/campaign-images", authMiddleware(authService, userService), campaignHandler.UploadImage)
+
+
+	api.GET("/campaigns/:id/transactions", authMiddleware(authService, userService), transactionHandler.GetCampaignTransactions)
+	api.GET("/transactions", authMiddleware(authService, userService), transactionHandler.GetUserTransactions)
+	api.POST("/transactions", authMiddleware(authService, userService), transactionHandler.CreateTransaction)
+	api.POST("/transactions/notification", transactionHandler.GetNotification)
 
 	router.Run()
 }
@@ -97,5 +121,22 @@ func authMiddleware(authService auth.Service, userService user.Service) gin.Hand
 		}
 
 		c.Set("currentUser", user)
+	}
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Credentials", "true")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
 	}
 }

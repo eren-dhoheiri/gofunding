@@ -77,60 +77,14 @@ kita bisa menggunaka erdplus.com
    - amount : int
    - status : varchar
    - code : varchar
+   - payment_url: varchar
+   - token : varchar
    - created_at : datetime
    - updated_at : datetime
 
-## Table init
-
-1. Table User
-   ```sql
-   CREATE TABLE users (
-   id int(6) NOT NULL primary key AUTO_INCREMENT,
-   name VARCHAR(50),
-   occupation VARCHAR(50),
-   email VARCHAR(50),
-   password_hash VARCHAR(255),
-   avatar_file_name VARCHAR(50),
-   role VARCHAR(50),
-   token VARCHAR(50),
-   created_at DATETIME,
-   updated_at DATETIME
-   )
-   ```
-2. Table Campaigns
-
-   ```sql
-   CREATE TABLE campaigns (
-   id int(11) NOT NULL primary key AUTO_INCREMENT,
-   user_id int(11),
-   name VARCHAR(255),
-   short_description VARCHAR(255),
-   description TEXT,
-   perks TEXT,
-   backer_count INT(11),
-   goal_amount INT(11),
-   current_amount INT(11),
-   slug VARCHAR(255),
-   created_at DATETIME,
-   updated_at DATETIME
-   )
-   ```
-
-3. Table Campaign Images
-   ```sql
-   CREATE TABLE campaign_images (
-   id int(11) NOT NULL primary key AUTO_INCREMENT,
-   campaign_id int(11),
-   file_name VARCHAR(255),
-   is_primary TINYINT(4),
-   created_at DATETIME,
-   updated_at DATETIME
-   )
-   ```
-
 ## JWT Auth
 
-jwt dimanfaatkan untuk authentikasi API berdasarkan token user. [cek details jwt](jwt.io)
+jwt dimanfaatkan untuk authentikasi API berdasarkan token user. [Details jwt](http://jwt.io)
 
 ```bash
 # get jwt module
@@ -193,7 +147,7 @@ go get github.com/dgrijalva/jwt-go
      "data": {
        "id": 1,
        "name": "test simpan dari service",
-       "occupation": "petanikode",
+       "occupation": "erendhoheiri",
        "email": "contoh@gmail.com",
        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxfQ.pR5mUyz1tm_Ni6-mCi-ankpmIwVifpJ0k_tNjbyp6p8",
        "ImageUrl": ""
@@ -208,3 +162,277 @@ go get github.com/dgrijalva/jwt-go
    - token => user_id
    - ambil user dari db berdasarkan user_id melalui service
    - set context dangan isi user
+
+## API Contract
+
+**POST : api/v1/users**
+**params :**
+
+- name
+- occupation
+- email
+- password
+
+**response :**
+
+```json
+meta : {
+	message: 'Your account has been created',
+	code: 200,
+	status: 'success'
+},
+data : {
+	id: 1,
+	name: "Agung Setiawan",
+	occupation: "content creator",
+	email: "com.agungsetiawan@gmail.com",
+	token: "peterpanyangterdalam"
+}
+```
+
+**POST : api/v1/email_checkers
+params :**
+
+- email
+
+**response:**
+
+```json
+meta : {
+	message: 'Email address has been registered',
+	code: 200,
+	status: 'success'
+},
+data : {
+	is_available: false
+}
+```
+
+**POST: api/v1/avatars
+params:**
+
+- avatar (form)
+
+**response:**
+
+```json
+meta : {
+	message: 'Avatar successfully uploaded,
+	code: 200,
+	status: 'success'
+},
+data : {
+	is_uploaded: true
+}
+```
+
+**POST: api/v1/sessions
+params:**
+
+- email
+- password
+
+**response:**
+
+meta : {
+
+message: 'You're now logged in'
+
+code: 200
+
+status: 'success'
+
+},
+
+data : {
+
+id: 1,
+name: "Agung Setiawan",
+occupation: "content creator",
+
+email: "com.agungsetiawan@gmail.com",
+
+token: "peterpanyangterdalam"
+
+}
+
+**GET: api/v1/campaigns
+params:**
+optional
+
+- user_id
+- backer_id
+- none
+
+**response:**
+
+```json
+meta : {
+	message: 'List of campaigns',
+	code: 200,
+	status: 'success'
+},
+data : [
+{
+		id: 1,
+		name: "BWA Startup",
+		short_description: "Laris manis tanjung kimpul, mari belajar bareng",
+		image_url: "domain/path/image.jpg",
+		goal_amount: 1000000000,
+		current_amount: 500000000,
+		slug: "slug-here",
+		user_id: 10
+	}
+]
+```
+
+**GET: api/v1/campaigns/1
+params:**
+none
+
+**response:**
+
+```json
+meta : {
+	message: 'single campaigns',
+	code: 200,
+	status: 'success'
+},
+data : {
+	id: 1,
+	name: "BWA Startup",
+	short_description: "Laris manis tanjung kimpul, mari belajar bareng",
+	image_url: "path/image.jpg",
+	goal_amount: 1000000000,
+	current_amount: 500000000,
+	user_id: 10,
+  slug: "slug",
+	description: "Lorem epsum dolor sit amet yang panjang text-nya",
+	user : {
+		name: "Julia Ester",
+		image_url: "path/image.jpg"
+	},
+	perks: [
+		"Nintendo Switch",
+		"Play Station 4"
+	],
+	images: [
+		{
+			image_url: "path/image.jpg",
+			is_primary: true
+		}
+	]
+}
+```
+
+POST: api/v1/campaigns
+
+```json
+{
+  "meta": {
+    "message": "Campaign successfully created ",
+    "code": 200,
+    "status": "success"
+  },
+  "data": {
+    "user_id": 1,
+    "goal_amount": 100000000,
+    "current_amount": 0,
+    "id": 7,
+    "name": "Switch Pro",
+    "image_url": "",
+    "slug": "slug",
+    "short_description": "Upcoming Nintendo Switch Pro"
+  }
+}
+```
+
+PUT : api/v1/campaigns/1
+
+sama dengan atas
+
+POST: api/v1/campaign-images
+
+- file
+- campaign_id
+- is_primary
+
+sama dengan upload avatar
+
+GET : api/v1/campaigns/:id/transactions (campaign punya transaksi backer siapa aja)
+
+```json
+meta : {
+	message: 'List of transactions'
+	code: 200,
+	status: 'success'
+},
+data : [
+	{
+		id: 1,
+		name: "Agung Setiawan",
+		amount: 1000000000,
+		created_at: datetime
+	}
+]
+```
+
+GET : api/v1/transactions/ (user pernah transaksi apa aja)
+params : header auth (current user)
+
+```json
+meta : {
+	message: 'List of backed campaigns',
+	code: 200,
+	status: 'success'
+
+},
+data : [
+	{
+		id: 1,
+		amount: 1000000000,
+		status: "paid",
+		created_at: datetime,
+		campaign: {
+			name: "Hola",
+			image_url : "path/to/file.png"
+		}
+	}
+]
+```
+
+POST: api/v1/transactions
+params : header auth (current user)
+
+***request***
+
+```json
+{
+    "campaign_id" : 2,
+    "amount" : 200000
+}
+```
+
+
+***response***
+
+```json
+{
+    "meta": {
+        "message": "Success to create transaction",
+        "code": 200,
+        "status": "success"
+    },
+    "data": {
+        "id": 5,
+        "campaign_id": 2,
+        "user_id": 2,
+        "amount": 200000,
+        "status": "pending",
+        "code": "",
+        "token": "4*****-0655-**********",
+        "payment_url": "https://app.sandbox.midtrans.com/snap/v2/vtweb/**************************",
+        "created_at": "0001-01-01T00:00:00Z"
+    }
+}
+```
